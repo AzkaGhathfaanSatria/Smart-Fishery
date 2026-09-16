@@ -1,121 +1,101 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import Gauge from './components/Gauge'
+import StatusPill from './components/StatusPill'
+import HistoryChart from './components/HistoryChart'
+import FeedingControl from './components/FeedingControl'
+import FilterControl from './components/FilterControl'
+import EventLog from './components/EventLog'
+import { historyData } from './data/mockData'
 import './App.css'
 
+const phZones = [
+  { from: 0, to: 6, color: '#C9482E', label: 'Kritis' },
+  { from: 6, to: 6.5, color: '#C98A2E', label: 'Waspada' },
+  { from: 6.5, to: 8.5, color: '#2E9E6B', label: 'Normal' },
+  { from: 8.5, to: 9, color: '#C98A2E', label: 'Waspada' },
+  { from: 9, to: 14, color: '#C9482E', label: 'Kritis' },
+]
+
+const tempZones = [
+  { from: 15, to: 24, color: '#C9482E', label: 'Kritis' },
+  { from: 24, to: 26, color: '#C98A2E', label: 'Waspada' },
+  { from: 26, to: 30, color: '#2E9E6B', label: 'Normal' },
+  { from: 30, to: 32, color: '#C98A2E', label: 'Waspada' },
+  { from: 32, to: 40, color: '#C9482E', label: 'Kritis' },
+]
+
 function App() {
-  const [count, setCount] = useState(0)
+  // Data dummy — nanti diganti dengan nilai realtime dari MQTT
+  const phValue = 7.4
+  const tempValue = 28.3
+  const timeLabel = new Date().toLocaleTimeString('id-ID', {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+    <div className="dashboard">
+      <header className="dashboard-header">
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+          <div className="brand">SMART FISHERY</div>
+          <div className="pond-name">Kolam A1</div>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        <div className="header-meta">
+          <span className="status-dot" />
+          <span className="online-label">Online</span>
+          <span className="timestamp">{timeLabel}</span>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+      </header>
+
+      <section className="grid-row-top">
+        <div className="panel">
+          <p className="panel-title">Kualitas Air — pH</p>
+          <Gauge
+            label="pH Air"
+            value={phValue}
+            min={0}
+            max={14}
+            unit="pH"
+            precision={2}
+            zones={phZones}
+          />
+        </div>
+
+        <div className="panel">
+          <p className="panel-title">Kualitas Air — Suhu</p>
+          <Gauge
+            label="Suhu Air"
+            value={tempValue}
+            min={15}
+            max={40}
+            unit="°C"
+            precision={1}
+            zones={tempZones}
+          />
+        </div>
+
+        <div className="panel">
+          <p className="panel-title">Ringkasan Status</p>
+          <div className="status-list">
+            <StatusPill label={`pH air normal (${phValue.toFixed(2)})`} tone="good" />
+            <StatusPill label={`Suhu air normal (${tempValue.toFixed(1)}°C)`} tone="good" />
+            <StatusPill label="Pakan terjadwal berikutnya 17:30" tone="good" />
+            <StatusPill label="Filter menyala, aliran normal" tone="good" />
+          </div>
         </div>
       </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <section className="panel">
+        <p className="panel-title">Riwayat pH & Suhu — 24 Jam Terakhir</p>
+        <HistoryChart data={historyData} />
+      </section>
+
+      <section className="grid-row-controls">
+        <FeedingControl />
+        <FilterControl />
+      </section>
+
+      <EventLog />
+    </div>
   )
 }
 
