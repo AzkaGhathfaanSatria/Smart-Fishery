@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-const schedule = ['07:00', '12:30', '17:30']
+const schedule = ['07:00', '12:00', '17:00']
 
-export default function FeedingControl() {
+export default function FeedingControl({ disabled }) {
   const [auto, setAuto] = useState(true)
 
   return (
@@ -13,11 +13,20 @@ export default function FeedingControl() {
         <div>
           <div className="control-title">Mode otomatis</div>
           <div className="control-sub">
-            {auto ? 'Aktif — mengikuti jadwal' : 'Nonaktif — kontrol manual'}
+            {disabled
+              ? 'Dihentikan — emergency stop'
+              : auto
+                ? 'Aktif — mengikuti jadwal RTC'
+                : 'Nonaktif — kontrol manual'}
           </div>
         </div>
         <label className="toggle">
-          <input type="checkbox" checked={auto} onChange={() => setAuto((v) => !v)} />
+          <input
+            type="checkbox"
+            checked={auto && !disabled}
+            disabled={disabled}
+            onChange={() => setAuto((v) => !v)}
+          />
           <span className="toggle-track"></span>
           <span className="toggle-thumb"></span>
         </label>
@@ -31,7 +40,7 @@ export default function FeedingControl() {
         ))}
       </div>
 
-      <button type="button" className="btn-primary" style={{ marginTop: 18 }}>
+      <button type="button" className="btn-primary" style={{ marginTop: 18 }} disabled={disabled}>
         Beri pakan sekarang
       </button>
     </div>

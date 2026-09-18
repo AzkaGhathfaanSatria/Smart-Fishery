@@ -1,0 +1,410 @@
+{
+  "version": 1,
+  "author": "Ferry Iqbal Fuadi",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp32",
+      "top": 350,
+      "left": 850,
+      "attrs": {
+        "name": "ESP32"
+      }
+    },
+    {
+      "type": "wokwi-ds18b20",
+      "id": "ds18b20",
+      "top": 80,
+      "left": 150,
+      "attrs": {
+        "name": "DS18B20 Suhu",
+        "temperature": "27.5"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_pullup",
+      "top": 160,
+      "left": 330,
+      "rotate": 90,
+      "attrs": {
+        "value": "4700",
+        "name": "Pullup 4.7k"
+      }
+    },
+    {
+      "type": "wokwi-ds1307",
+      "id": "rtc",
+      "top": 80,
+      "left": 1250,
+      "attrs": {
+        "name": "DS3231 (RTC)"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot_ph",
+      "top": 330,
+      "left": 80,
+      "attrs": {
+        "name": "Sensor pH (dummy)",
+        "value": "0.5"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot_turb",
+      "top": 530,
+      "left": 80,
+      "attrs": {
+        "name": "Turbidity (dummy)",
+        "value": "0.3"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot_level",
+      "top": 730,
+      "left": 80,
+      "attrs": {
+        "name": "Water Level (dummy)",
+        "value": "0.8"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot_flow",
+      "top": 930,
+      "left": 80,
+      "attrs": {
+        "name": "Flow YF-S201 (dummy)",
+        "value": "0.5"
+      }
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo",
+      "top": 330,
+      "left": 1550,
+      "attrs": {
+        "name": "Servo Pakan SG90",
+        "horn": "single"
+      }
+    },
+    {
+      "type": "wokwi-relay-module",
+      "id": "relay_pump1",
+      "top": 530,
+      "left": 1550,
+      "attrs": {
+        "name": "Relay1 Pompa Sirkulasi"
+      }
+    },
+    {
+      "type": "wokwi-dc-motor",
+      "id": "pump1",
+      "top": 530,
+      "left": 1880,
+      "attrs": {
+        "name": "Pompa 1 Sirkulasi"
+      }
+    },
+    {
+      "type": "wokwi-relay-module",
+      "id": "relay_pump2",
+      "top": 700,
+      "left": 1550,
+      "attrs": {
+        "name": "Relay2 Pompa Pengisi"
+      }
+    },
+    {
+      "type": "wokwi-dc-motor",
+      "id": "pump2",
+      "top": 700,
+      "left": 1880,
+      "attrs": {
+        "name": "Pompa 2 Pengisi"
+      }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "buzzer",
+      "top": 900,
+      "left": 1550,
+      "attrs": {
+        "name": "Buzzer Alert"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r_led",
+      "top": 1080,
+      "left": 1550,
+      "attrs": {
+        "value": "220",
+        "name": "R LED 220"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led",
+      "top": 1080,
+      "left": 1720,
+      "attrs": {
+        "color": "green",
+        "name": "LED Indikator"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp32:GND.1",
+      "ds18b20:GND",
+      "black",
+      []
+    ],
+    [
+      "esp32:3V3",
+      "ds18b20:VCC",
+      "red",
+      []
+    ],
+    [
+      "esp32:19",
+      "ds18b20:DQ",
+      "green",
+      []
+    ],
+    [
+      "esp32:3V3",
+      "r_pullup:1",
+      "red",
+      []
+    ],
+    [
+      "esp32:19",
+      "r_pullup:2",
+      "green",
+      []
+    ],
+    [
+      "esp32:GND.1",
+      "rtc:GND",
+      "black",
+      []
+    ],
+    [
+      "rtc:VCC",
+      "esp32:5V",
+      "red",
+      []
+    ],
+    [
+      "esp32:21",
+      "rtc:SDA",
+      "blue",
+      []
+    ],
+    [
+      "esp32:22",
+      "rtc:SCL",
+      "yellow",
+      []
+    ],
+    [
+      "esp32:GND.1",
+      "pot_ph:GND",
+      "black",
+      []
+    ],
+    [
+      "pot_ph:VCC",
+      "esp32:5V",
+      "red",
+      []
+    ],
+    [
+      "esp32:34",
+      "pot_ph:SIG",
+      "purple",
+      []
+    ],
+    [
+      "esp32:GND.1",
+      "pot_turb:GND",
+      "black",
+      []
+    ],
+    [
+      "pot_turb:VCC",
+      "esp32:5V",
+      "red",
+      []
+    ],
+    [
+      "esp32:35",
+      "pot_turb:SIG",
+      "cyan",
+      []
+    ],
+    [
+      "esp32:GND.1",
+      "pot_level:GND",
+      "black",
+      []
+    ],
+    [
+      "pot_level:VCC",
+      "esp32:5V",
+      "red",
+      []
+    ],
+    [
+      "esp32:32",
+      "pot_level:SIG",
+      "white",
+      []
+    ],
+    [
+      "esp32:GND.1",
+      "pot_flow:GND",
+      "black",
+      []
+    ],
+    [
+      "pot_flow:VCC",
+      "esp32:5V",
+      "red",
+      []
+    ],
+    [
+      "esp32:33",
+      "pot_flow:SIG",
+      "gray",
+      []
+    ],
+    [
+      "esp32:GND.1",
+      "servo:GND",
+      "black",
+      []
+    ],
+    [
+      "esp32:5V",
+      "servo:V+",
+      "red",
+      []
+    ],
+    [
+      "esp32:18",
+      "servo:PWM",
+      "orange",
+      []
+    ],
+    [
+      "esp32:GND.1",
+      "relay_pump1:GND",
+      "black",
+      []
+    ],
+    [
+      "relay_pump1:VCC",
+      "esp32:5V",
+      "red",
+      []
+    ],
+    [
+      "esp32:25",
+      "relay_pump1:IN",
+      "green",
+      []
+    ],
+    [
+      "esp32:5V",
+      "relay_pump1:COM",
+      "red",
+      []
+    ],
+    [
+      "relay_pump1:NC",
+      "pump1:1",
+      "red",
+      []
+    ],
+    [
+      "pump1:2",
+      "esp32:GND.1",
+      "black",
+      []
+    ],
+    [
+      "esp32:GND.1",
+      "relay_pump2:GND",
+      "black",
+      []
+    ],
+    [
+      "relay_pump2:VCC",
+      "esp32:5V",
+      "red",
+      []
+    ],
+    [
+      "esp32:26",
+      "relay_pump2:IN",
+      "yellow",
+      []
+    ],
+    [
+      "esp32:5V",
+      "relay_pump2:COM",
+      "red",
+      []
+    ],
+    [
+      "relay_pump2:NC",
+      "pump2:1",
+      "red",
+      []
+    ],
+    [
+      "pump2:2",
+      "esp32:GND.1",
+      "black",
+      []
+    ],
+    [
+      "esp32:GND.1",
+      "buzzer:1",
+      "black",
+      []
+    ],
+    [
+      "esp32:27",
+      "buzzer:2",
+      "purple",
+      []
+    ],
+    [
+      "esp32:14",
+      "r_led:1",
+      "pink",
+      []
+    ],
+    [
+      "r_led:2",
+      "led:A",
+      "pink",
+      []
+    ],
+    [
+      "led:C",
+      "esp32:GND.1",
+      "black",
+      []
+    ]
+  ],
+  "dependencies": {}
+}
